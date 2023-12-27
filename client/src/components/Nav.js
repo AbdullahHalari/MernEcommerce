@@ -174,7 +174,8 @@ const Nav = () => {
             <NavLink
               to="/"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
+              onClick={() => setMenuIcon(false)}
+            >
               Home
             </NavLink>
           </li>
@@ -182,7 +183,8 @@ const Nav = () => {
             <NavLink
               to="/about"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
+              onClick={() => setMenuIcon(false)}
+            >
               About
             </NavLink>
           </li>
@@ -190,7 +192,8 @@ const Nav = () => {
             <NavLink
               to="/products"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
+              onClick={() => setMenuIcon(false)}
+            >
               Products
             </NavLink>
           </li>
@@ -198,12 +201,13 @@ const Nav = () => {
             <NavLink
               to="/contact"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
+              onClick={() => setMenuIcon(false)}
+            >
               Contact
             </NavLink>
           </li>
 
-          {isAuthenticated && <p>{user.name}</p>}
+          {/* {isAuthenticated && <p>{user.name}</p>}
 
           {isAuthenticated ? (
             <li>
@@ -213,11 +217,19 @@ const Nav = () => {
               </Button>
             </li>
           ) : (
-            <li>
-              <Button onClick={() => loginWithRedirect()}>Log In</Button>
-            </li>
-          )}
-
+          <li>
+            <Button onClick={() => loginWithRedirect()}>Log In</Button>
+          </li>
+          )} */}
+          <li>
+            <NavLink
+              to="/Login"
+              className="navbar-link "
+              onClick={() => setMenuIcon(false)}
+            >
+              Account
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">
               <FiShoppingCart className="cart-trolley" />

@@ -29,10 +29,9 @@ export const Container = styled.div`
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: relative;
   overflow: hidden;
-  width: 50%;
   max-width: 100%;
   min-height: 400px;
-  left: 25%;
+  margin:20px;
   justify-content: center;
   align-items: center;
 `;
@@ -54,6 +53,7 @@ export const SignUpContainer = styled.div`
 	z-index: 5;
 	`
       : null}
+
 `;
 
 export const SignInContainer = styled.div`
@@ -66,6 +66,7 @@ export const SignInContainer = styled.div`
   z-index: 2;
   ${(props) =>
     props.signingIn !== true ? `transform: translateX(100%);` : null}
+
 `;
 
 export const Form = styled.form`
@@ -94,14 +95,13 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border: 1px solid #ff416c;
+  background-color: #ff416c;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
   padding: 12px 45px;
   letter-spacing: 1px;
-  text-transform: uppercase;
   transition: transform 80ms ease-in;
   &:active {
     transform: scale(0.95);
@@ -138,8 +138,8 @@ export const OverlayContainer = styled.div`
 
 export const Overlay = styled.div`
   background: #ff416c;
-  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: -webkit-linear-gradient(to right, #f88379, #ff416c);
+  background: linear-gradient(to left, #f88379, #ff416c);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
