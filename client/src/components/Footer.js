@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import { Button } from "../styles/Button";
 import { FaDiscord, FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Wrapper>
@@ -17,7 +18,7 @@ const Footer = () => {
 
             <div>
               <Button className="btn hireme-btn">
-                <NavLink to="/"> Get Started </NavLink>
+                <NavLink to="/contact"> Get Started </NavLink>
               </Button>
             </div>
           </div>
@@ -32,11 +33,20 @@ const Footer = () => {
             </div>
             <div className="footer-subscribe">
               <h3>Subscribe to get important updates</h3>
-              <form action="#">
-                <input type="email" name="email" placeholder="YOUR E-MAIL" />
-
-                <input type="submit" value="subscribe" />
-              </form>
+              {/* <form action="#"> */}
+              <input type="email" name="email" placeholder="YOUR E-MAIL" />
+              <Button
+                onClick={() => navigate("/contact")}
+                className="btn btn-clear"
+              >
+                subscribe
+              </Button>
+              {/* <input
+                type="submit"
+                value="subscribe"
+                onClick={() => navigate("/contact")}
+              /> */}
+              {/* </form> */}
             </div>
             <div className="footer-social">
               <h3>Follow Us</h3>
@@ -109,6 +119,7 @@ const Wrapper = styled.section`
     p {
       color: ${({ theme }) => theme.colors.white};
     }
+   
     .footer-social--icons {
       display: flex;
       gap: 2rem;

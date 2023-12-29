@@ -76,6 +76,9 @@ const Cart = () => {
               </p>
             </div>
           </div>
+          <Button className="btn btn-clear" >
+            Order Now
+          </Button>
         </div>
       </div>
     </Wrapper>

@@ -15,8 +15,8 @@ const HeroSection = ({ myData }) => {
             <p>
               {detail}
             </p>
-            <NavLink>
-              <Button>show now</Button>
+            <NavLink to={'/products'}>
+              <Button>shop now</Button>
             </NavLink>
           </div>
           {/* our homepage image  */}

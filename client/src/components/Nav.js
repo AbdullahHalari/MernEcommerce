@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
@@ -10,8 +10,53 @@ import { Button } from "../styles/Button";
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
   const { total_item } = useCartContext();
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  // const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const [token, setToken] = useState(null);
 
+  const verifyToken = async (e) => {
+    
+    try {
+      const response = await fetch("http://localhost:5000/token", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (response.status === 201) {
+        const data = await response.json();
+        const token = data.token;
+        console.log("Login successful. Token:", token);
+        if (token == null || token === undefined || token === "") {
+          console.log("Setting token to null");
+          setToken(null);
+        } else {
+          console.log("Setting token:", token);
+          setToken(token);
+        }
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
+  const logOut = async (e) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        //  onLogout();
+        console.log("user logout")
+        setToken(null);
+        setMenuIcon(false);
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
   const Nav = styled.nav`
     .navbar-lists {
       display: flex;
@@ -165,7 +210,10 @@ const Nav = () => {
       }
     }
   `;
-
+    useEffect(()=>{
+    
+      verifyToken();
+    },[])
   return (
     <Nav>
       <div className={menuIcon ? "navbar active" : "navbar"}>
@@ -207,21 +255,27 @@ const Nav = () => {
             </NavLink>
           </li>
 
-          {/* {isAuthenticated && <p>{user.name}</p>}
+          {/* <button
+            onClick={
+              verifyToken
+            }
+          >
+            
+            click
+          </button> */}
 
-          {isAuthenticated ? (
+          {token ? (
             <li>
-              <Button
-                onClick={() => logout({ returnTo: window.location.origin })}>
-                Log Out
-              </Button>
+              <Button onClick={logOut}>Log Out</Button>
             </li>
           ) : (
-          <li>
-            <Button onClick={() => loginWithRedirect()}>Log In</Button>
-          </li>
-          )} */}
-          <li>
+            <li>
+              <NavLink to="/login">
+                <Button onClick={() => setMenuIcon(false)}> Login </Button>
+              </NavLink>
+            </li>
+          )}
+          {/* <li>
             <NavLink
               to="/Login"
               className="navbar-link "
@@ -229,9 +283,13 @@ const Nav = () => {
             >
               Account
             </NavLink>
-          </li>
+          </li> */}
           <li>
-            <NavLink to="/cart" className="navbar-link cart-trolley--link">
+            <NavLink
+              to="/cart"
+              className="navbar-link cart-trolley--link"
+              onClick={() => setMenuIcon(false)}
+            >
               <FiShoppingCart className="cart-trolley" />
               <span className="cart-total--item"> {total_item} </span>
             </NavLink>
