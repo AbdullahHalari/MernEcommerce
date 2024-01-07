@@ -77,7 +77,7 @@ const Cart = () => {
             </div>
           </div>
           <Button className="btn btn-clear" >
-            Order Now
+          Check Out
           </Button>
         </div>
       </div>

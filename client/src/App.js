@@ -6,13 +6,14 @@ import Products from "./Products";
 import Contact from "./Contact";
 import Cart from "./Cart";
 import SingleProduct from "./SingleProduct";
+import UploadProduct from "./uploadProduct";
 import ErrorPage from "./ErrorPage";
 import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./login";
-
+import OrderForm from "./OrderNow";
 const App = () => {
   const theme = {
     colors: {
@@ -51,7 +52,9 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/singleproduct/:id" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/uploadproduct" element={<UploadProduct />} />
+          <Route path="/ordernow" element={<OrderForm />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

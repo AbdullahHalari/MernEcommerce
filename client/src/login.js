@@ -160,7 +160,7 @@ const  Login = ()=> {
       <Components.OverlayContainer signingIn={signIn}>
         <Components.Overlay signingIn={signIn}>
           <Components.LeftOverlayPanel signingIn={signIn}>
-            <Components.Title>Welcome Back!</Components.Title>
+            <Components.Title>Khush Aamdeed!</Components.Title>
             <Components.Paragraph>
               To keep connected with us please login with your personal info
             </Components.Paragraph>
@@ -169,7 +169,7 @@ const  Login = ()=> {
             </Components.GhostButton>
           </Components.LeftOverlayPanel>
           <Components.RightOverlayPanel signingIn={signIn}>
-            <Components.Title>Hello, Friend!</Components.Title>
+            <Components.Title>Marhaba, Friend!</Components.Title>
             <Components.Paragraph>
               Enter your personal details and start journey with us
             </Components.Paragraph>
