@@ -4,54 +4,160 @@ import styled from "styled-components";
 
 const UploadProduct = () => {
 
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [articleNo, setArticleNo] = useState("");
-  const [price, setPrice] = useState("");
-  const [company, setCompany] = useState("");
-  const [featured, setFeatured] = useState("");
-  const [description, setDescription] = useState("");
-  const [colors, setColors] = useState(["#ff0000", "#00ff00"]); // Initial colors
+  // const [title, setTitle] = useState("");
+  // const [category, setCategory] = useState("");
+  // const [articleNo, setArticleNo] = useState("");
+  // const [price, setPrice] = useState("");
+  // const [company, setCompany] = useState("");
+  // const [featured, setFeatured] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [colors, setColors] = useState(["#ff0000", "#00ff00"]); // Initial colors
 
-  const handleColorChange = (index, newColor) => {
-    const updatedColors = [...colors];
-    updatedColors[index] = newColor;
-    setColors(updatedColors);
-  };
+  // const handleColorChange = (index, newColor) => {
+  //   const updatedColors = [...colors];
+  //   updatedColors[index] = newColor;
+  //   setColors(updatedColors);
+  // };
 
-  const handleRemoveColor = (index) => {
-    const updatedColors = [...colors];
-    updatedColors.splice(index, 1);
-    setColors(updatedColors);
-  };
+  // const handleRemoveColor = (index) => {
+  //   const updatedColors = [...colors];
+  //   updatedColors.splice(index, 1);
+  //   setColors(updatedColors);
+  // };
 
-  const handleAddColor = () => {
-    const newColor = "#fff";
-    const updatedColors = [...colors, newColor];
-    setColors(updatedColors);
-  };
+  // const handleAddColor = () => {
+  //   const newColor = "#fff";
+  //   const updatedColors = [...colors, newColor];
+  //   setColors(updatedColors);
+  // };
 
-  const [productImages, setProductImages] = useState([]);
+  // const [productImages, setProductImages] = useState([]);
 
-  const handleImagesChange = (e) => {
-    const files = e.target.files;
-    setProductImages([...productImages, ...files]);
-  };
+  // const handleImagesChange = (e) => {
+  //   const files = e.target.files;
+  //   setProductImages([...productImages, ...files]);
+  // };
 
-  const handleUpload = (e) => {
-    e.preventDefault();
-   console.log(title,category,company,articleNo,price,featured,description,colors,productImages)
-   setArticleNo('');
-   setCategory('');
-   setCompany('');
-   setColors([]);
-   setDescription('');
-   setFeatured('');
-   setTitle('');
-   setPrice('');
-   setProductImages([])
-  };
+  // const handleUpload = async (e) => {
+  //  e.preventDefault();
 
+  //   const productFormData = new FormData();
+  //   productFormData.append("title", title);
+  //   productFormData.append("category", category);
+  //   productFormData.append("articleNo", articleNo);
+  //   productFormData.append("price", price);
+  //   productFormData.append("company", company);
+  //   productFormData.append("featured", featured);
+  //   productFormData.append("description", description);
+
+  //   colors.forEach((color, index) => {
+  //     productFormData.append(`colors[${index}]`, color);
+  //   });
+
+  //   productImages.forEach((image, index) => {
+  //     productFormData.append(`productImages[${index}]`, image);
+  //   });
+
+  //   try {
+  //     const res = await fetch("http://localhost:5000/api/productUpload", {
+  //       method: "POST",
+  //       body: productFormData,
+  //     });
+
+  //     const data = await res.json();
+  //     console.log(data);
+
+  //     if (res.status === 422 || !data) {
+  //       console.log("Invalid");
+  //     } else {
+  //       console.log("Success");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //  console.log(title,category,company,articleNo,price,featured,description,colors,productImages)
+  // //  setArticleNo('');
+  // //  setCategory('');
+  // //  setCompany('');
+  // //  setColors([]);
+  // //  setDescription('');
+  // //  setFeatured('');
+  // //  setTitle('');
+  // //  setPrice('');
+  // //  setProductImages([])
+  // };
+const [title, setTitle] = useState("");
+const [category, setCategory] = useState("");
+const [articleNo, setArticleNo] = useState("");
+const [price, setPrice] = useState("");
+const [company, setCompany] = useState("");
+const [featured, setFeatured] = useState("");
+const [description, setDescription] = useState("");
+const [colors, setColors] = useState(["#ff0000", "#00ff00"]); // Initial colors
+const [productImages, setProductImages] = useState([]);
+
+const handleColorChange = (index, newColor) => {
+  const updatedColors = [...colors];
+  updatedColors[index] = newColor;
+  setColors(updatedColors);
+};
+
+const handleRemoveColor = (index) => {
+  const updatedColors = [...colors];
+  updatedColors.splice(index, 1);
+  setColors(updatedColors);
+};
+
+const handleAddColor = () => {
+  const newColor = "#fff";
+  const updatedColors = [...colors, newColor];
+  setColors(updatedColors);
+};
+
+const handleImagesChange = (e) => {
+  const files = e.target.files;
+  setProductImages([...productImages, ...files]);
+};
+
+const handleUpload = async (e) => {
+  e.preventDefault();
+
+  const productFormData = new FormData();
+  productFormData.append("title", title);
+  productFormData.append("category", category);
+  productFormData.append("articleNo", articleNo);
+  productFormData.append("price", price);
+  productFormData.append("company", company);
+  productFormData.append("featured", featured);
+  productFormData.append("description", description);
+
+  colors.forEach((color, index) => {
+    productFormData.append(`colors[${index}]`, color);
+  });
+
+  productImages.forEach((image, index) => {
+    productFormData.append(`productImages`, image);
+    console.log(image)
+  });
+
+  try {
+    const res = await fetch("http://localhost:5000/api/productUpload", {
+      method: "POST",
+      body: productFormData,
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 422 || !data) {
+      console.log("Invalid");
+    } else {
+      console.log("Success");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <>
       <Wrapper>
@@ -148,8 +254,8 @@ const UploadProduct = () => {
                       required
                       type="radio"
                       name="courseType"
-                      value="featured"
-                      checked={featured === "featured"}
+                      value="true"
+                      checked={featured === "true"}
                       onChange={(e) => setFeatured(e.target.value)}
                     />
                     Yes
@@ -159,8 +265,8 @@ const UploadProduct = () => {
                       required
                       type="radio"
                       name="courseType"
-                      value=""
-                      checked={featured === ""}
+                      value="false"
+                      checked={featured === "false"}
                       onChange={(e) => setFeatured(e.target.value)}
                     />
                     No

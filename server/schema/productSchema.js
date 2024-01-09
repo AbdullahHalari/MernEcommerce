@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   price: {
-    type: Int16Array,
+    type: String,
     required: true,
   },
   company: {
@@ -21,16 +21,22 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: [String],
-    required: true,
-  },
+  // image: {
+  //   type: [String],
+  //   required: true,
+  // },
+  // productImages: [
+  //   {
+  //     data: Buffer,
+  //     contentType: String,
+  //   },
+  // ],
   description: {
     type: String,
     required: true,
   },
   featured: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   colors: {
@@ -38,7 +44,6 @@ const productSchema = new mongoose.Schema({
     requied: true,
   },
 });
-
 
 const Products = mongoose.model("libaasProducts", productSchema);
 module.exports = Products;
