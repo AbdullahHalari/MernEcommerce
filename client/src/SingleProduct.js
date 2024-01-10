@@ -10,8 +10,9 @@ import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
+import { Button } from "./styles/Button";
 
-const API = "https://api.pujakaitem.com/api/products";
+const API = "http://localhost:5000/api/getAllProducts";
 
 const SingleProduct = () => {
   const { getSingleProduct, isSingleLoading, singleProduct } =
@@ -21,7 +22,7 @@ const SingleProduct = () => {
 
   const {
     id: alias,
-    name,
+    title,
     company,
     price,
     description,
@@ -29,11 +30,11 @@ const SingleProduct = () => {
     stock,
     stars,
     reviews,
-    image,
+    images,
   } = singleProduct;
 
   useEffect(() => {
-    getSingleProduct(`${API}?id=${id}`);
+    getSingleProduct(`${API}/${id}`);
   }, []);
 
   if (isSingleLoading) {
@@ -42,17 +43,17 @@ const SingleProduct = () => {
 
   return (
     <Wrapper>
-      <PageNavigation title={name} />
+      <PageNavigation title={title} />
       <Container className="container">
         <div className="grid grid-two-column">
           {/* product Images  */}
           <div className="product_images">
-            <MyImage imgs={image} />
+            <MyImage imgs={images} />
           </div>
 
           {/* product dAta  */}
           <div className="product-data">
-            <h2>{name}</h2>
+            <h2>{title}</h2>
             <Star stars={stars} reviews={reviews} />
 
             <p className="product-data-price">
@@ -96,7 +97,8 @@ const SingleProduct = () => {
               </p>
             </div>
             <hr />
-            {stock > 0 && <AddToCart product={singleProduct} />}
+            {/* <button onClick={()=>console.log(singleProduct)}>click here</button> */}
+            {<AddToCart product={singleProduct} />}
           </div>
         </div>
       </Container>

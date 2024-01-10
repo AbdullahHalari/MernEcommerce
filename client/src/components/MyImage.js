@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const MyImage = ({ imgs = [{ url: "" }] }) => {
   const [mainImage, setMainImage] = useState(imgs[0]);
-
   return (
     <Wrapper>
       <div className="grid grid-four-column">
@@ -11,7 +10,7 @@ const MyImage = ({ imgs = [{ url: "" }] }) => {
           return (
             <figure>
               <img
-                src={curElm.url}
+                src={`http://localhost:5000/uploads/${curElm.filename}`}
                 alt={curElm.filename}
                 className="box-image--style"
                 key={index}
@@ -24,8 +23,10 @@ const MyImage = ({ imgs = [{ url: "" }] }) => {
       {/* 2nd column  */}
 
       <div className="main-screen">
-        <img src={mainImage.url} alt={mainImage.filename} />
+        <p>{mainImage.url}</p>
+        <img src={`http://localhost:5000/uploads/${mainImage.filename}`} alt={mainImage.filename} />
       </div>
+      {/* http://localhost:5000/uploads/${images[0].filename} */}
     </Wrapper>
   );
 };

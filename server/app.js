@@ -13,6 +13,8 @@ app.use(
     credentials: true,
   })
 );
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 const cookieParser = require("cookie-parser");
 dotenv.config({ path: "./config.env" });
 require("./dbcon");
@@ -136,8 +138,12 @@ app.post(
       featured,
       description,
       colors,
+      productImages
     } = req.body;
-    const data = req.files
+    const images = [];
+    for (var i = 0; i < req.files.length; i++) {
+      images.push(req.files[i]);
+    }
     // Ensure required fields are present
     if (!title || !description) {
       return res
@@ -145,61 +151,61 @@ app.post(
         .json({ error: "Title and description are required" });
     }
 
-    // try {
-      console.log(
-        title,
-        category,
-        company,
-        articleNo,
-        price,
-        featured,
-        description,
-        colors
-      );
-        console.log(req.body);
-        console.log(req.files)
+    try {
       // Assuming 'Products' is your Mongoose model
-  //     const products = new Products({
-  //       articleNo: articleNo,
-  //       title: title,
-  //       price: price,
-  //       company: company,
-  //       category: category,
-  //       colors: colors,
-  //       description: description,
-  //       featured: featured,
-  //       productImages: data.map((file) => ({
-  //         data: file.buffer,
-  //         contentType: file.mimetype,
-  //       })),
-  //     });
+      const products = new Products({
+        articleNo: articleNo,
+        title: title,
+        price: price,
+        company: company,
+        category: category,
+        colors: colors,
+        description: description,
+        featured: featured,
+        // productImages: req.files.map((file) => ({
+        //   data: file.buffer,
+        //   contentType: file.mimetype,
+        // })),
+        images: images,
+      });
 
-  //     // if (req.files && req.files.length > 0) {
-  //     //   // Access files from req.files array
-  //     //   products.productImages = req.files.map((file) => ({
-  //     //     data: file.buffer,
-  //     //     contentType: file.mimetype,
-  //     //   }));
-  //     //   console.log(products.productImages);
-  //     // }
-  //     console.log(
-  //       data
-  //     );
-  //     const ProductsReg = await products.save();
+      // if (req.files && req.files.length > 0) {
+      //   // Access files from req.files array
+      //   products.productImages = req.files.map((file) => ({
+      //     data: file.buffer,
+      //     contentType: file.mimetype,
+      //   }));
+      //   console.log(products.productImages);
+      // }
+      // console.log(
+      //   req.files.map((file) => ({
+      //     data: file.buffer,
+      //     contentType: file.mimetype,
+      //   }))
+      // );
+      const ProductsReg = await products.save();
 
-  //     if (ProductsReg) {
-  //       res.status(201).json({ message: "Successfully stored" });
-  //     } else {
-  //       res.status(500).json({ error: "Failed to store" });
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({ error: "Internal Server Error" });
-  //   }
+      if (ProductsReg) {
+        res.status(201).json({ message: "Successfully stored" });
+      } else {
+        res.status(500).json({ error: "Failed to store" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 );
 
-
+app.get("/api/getAllProducts", async (req, res) => {
+  try {
+    const products = await Products.find();
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // Protected route
 app.get("/api/protected", verifyToken, (req, res) => {
@@ -209,4 +215,21 @@ app.get("/api/protected", verifyToken, (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`server is running at port no ${PORT}`);
+});
+
+app.get("/api/getAllProducts/:id", async (req, res) => {
+  const productId = req.params.id;
+  console.log(productId)
+  try {
+    const product = await Products.findById(productId);
+    console.log(product)
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.json(product);
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });

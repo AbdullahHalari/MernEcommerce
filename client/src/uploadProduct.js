@@ -1,91 +1,10 @@
-import React,{ useState } from "react";
+import React,{ useState,useEffect } from "react";
 import styled from "styled-components";
 
 
 const UploadProduct = () => {
 
-  // const [title, setTitle] = useState("");
-  // const [category, setCategory] = useState("");
-  // const [articleNo, setArticleNo] = useState("");
-  // const [price, setPrice] = useState("");
-  // const [company, setCompany] = useState("");
-  // const [featured, setFeatured] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [colors, setColors] = useState(["#ff0000", "#00ff00"]); // Initial colors
-
-  // const handleColorChange = (index, newColor) => {
-  //   const updatedColors = [...colors];
-  //   updatedColors[index] = newColor;
-  //   setColors(updatedColors);
-  // };
-
-  // const handleRemoveColor = (index) => {
-  //   const updatedColors = [...colors];
-  //   updatedColors.splice(index, 1);
-  //   setColors(updatedColors);
-  // };
-
-  // const handleAddColor = () => {
-  //   const newColor = "#fff";
-  //   const updatedColors = [...colors, newColor];
-  //   setColors(updatedColors);
-  // };
-
-  // const [productImages, setProductImages] = useState([]);
-
-  // const handleImagesChange = (e) => {
-  //   const files = e.target.files;
-  //   setProductImages([...productImages, ...files]);
-  // };
-
-  // const handleUpload = async (e) => {
-  //  e.preventDefault();
-
-  //   const productFormData = new FormData();
-  //   productFormData.append("title", title);
-  //   productFormData.append("category", category);
-  //   productFormData.append("articleNo", articleNo);
-  //   productFormData.append("price", price);
-  //   productFormData.append("company", company);
-  //   productFormData.append("featured", featured);
-  //   productFormData.append("description", description);
-
-  //   colors.forEach((color, index) => {
-  //     productFormData.append(`colors[${index}]`, color);
-  //   });
-
-  //   productImages.forEach((image, index) => {
-  //     productFormData.append(`productImages[${index}]`, image);
-  //   });
-
-  //   try {
-  //     const res = await fetch("http://localhost:5000/api/productUpload", {
-  //       method: "POST",
-  //       body: productFormData,
-  //     });
-
-  //     const data = await res.json();
-  //     console.log(data);
-
-  //     if (res.status === 422 || !data) {
-  //       console.log("Invalid");
-  //     } else {
-  //       console.log("Success");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //  console.log(title,category,company,articleNo,price,featured,description,colors,productImages)
-  // //  setArticleNo('');
-  // //  setCategory('');
-  // //  setCompany('');
-  // //  setColors([]);
-  // //  setDescription('');
-  // //  setFeatured('');
-  // //  setTitle('');
-  // //  setPrice('');
-  // //  setProductImages([])
-  // };
+ 
 const [title, setTitle] = useState("");
 const [category, setCategory] = useState("");
 const [articleNo, setArticleNo] = useState("");
@@ -116,7 +35,12 @@ const handleAddColor = () => {
 
 const handleImagesChange = (e) => {
   const files = e.target.files;
-  setProductImages([...productImages, ...files]);
+  const filesArray = Array.from(files);
+
+  // Create an array of valid File objects
+  const validFiles = filesArray.filter((file) => file instanceof File);
+
+  setProductImages([...productImages, ...validFiles]);
 };
 
 const handleUpload = async (e) => {
@@ -137,7 +61,6 @@ const handleUpload = async (e) => {
 
   productImages.forEach((image, index) => {
     productFormData.append(`productImages`, image);
-    console.log(image)
   });
 
   try {
@@ -147,7 +70,6 @@ const handleUpload = async (e) => {
     });
 
     const data = await res.json();
-    console.log(data);
 
     if (res.status === 422 || !data) {
       console.log("Invalid");
@@ -158,6 +80,26 @@ const handleUpload = async (e) => {
     console.log(error);
   }
 };
+ const [products, setProducts] = useState([]);
+
+ useEffect(() => {
+   const fetchProducts = async () => {
+     try {
+       const response = await fetch("http://localhost:5000/api/getAllProducts");
+       if (!response.ok) {
+         throw new Error(`HTTP error! Status: ${response.status}`);
+       }
+
+       const data = await response.json();
+       setProducts(data);
+     } catch (error) {
+       console.error("Error fetching products:", error);
+     }
+   };
+
+   fetchProducts();
+   console.log(products)
+ }, []);
   return (
     <>
       <Wrapper>
@@ -169,7 +111,6 @@ const handleUpload = async (e) => {
               <div className="form-group">
                 <label htmlFor="title">Title:</label>
                 <input
-                   
                   type="text"
                   placeholder="Enter your title here..."
                   id="title"
@@ -182,7 +123,6 @@ const handleUpload = async (e) => {
               <div className="form-group">
                 <label htmlFor="title">articleNo:</label>
                 <input
-                   
                   type="text"
                   placeholder="Enter your articleNo here..."
                   id="title"
@@ -195,7 +135,6 @@ const handleUpload = async (e) => {
               <div className="form-group">
                 <label htmlFor="title">price:</label>
                 <input
-                   
                   type="text"
                   placeholder="Enter your price here..."
                   id="title"
@@ -222,7 +161,6 @@ const handleUpload = async (e) => {
               <div className="form-group">
                 <label htmlFor="title">company:</label>
                 <input
-                   
                   type="text"
                   placeholder="Enter your company here..."
                   id="title"
@@ -293,16 +231,26 @@ const handleUpload = async (e) => {
                     </button>
                   </div>
                 ))}
-                <button onClick={handleAddColor}>Add Color</button>
+                <button onClick={handleAddColor} type="button">
+                  Add Color
+                </button>
               </div>
               <br></br>
               <br></br>
               <br></br>
               <div>
                 <label htmlFor="imagesUpload">Product Images:</label>
+                {/* <input
+                  type="file"
+                  id="imagesUpload"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImagesChange}
+                /> */}
                 <input
                   type="file"
                   id="imagesUpload"
+                  name="productImages"
                   accept="image/*"
                   multiple
                   onChange={handleImagesChange}
@@ -316,6 +264,38 @@ const handleUpload = async (e) => {
                 Upload
               </button>
             </form>
+            <div>
+              <h2>Product List</h2>
+              <ul>
+                {products.map((product) => (
+                  <li key={product._id}>
+                    <h3>{product.title}</h3>
+                    <p>Price: {product.price}</p>
+                    <p>Description: {product.description}</p>
+                    <p>Category: {product.category}</p>
+                    <p>Company: {product.company}</p>
+                    <p style={{color:`${product.colors[1]}`}}>Colors: {product.colors[0]}</p>
+                    <p>Featured: {product.featured}</p>
+                    <img
+                      src={`http://localhost:5000/uploads/${product.images[0].filename}`}
+                    />
+                    <div>
+                      <h4>Images:</h4>
+                      <ul>
+                        {product.images.map((image, index) => (
+                          <li key={index}>
+                            <img
+                              src={`http://localhost:5000/uploads/${image.filename}`}
+                              alt={image.originalname}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </Wrapper>
