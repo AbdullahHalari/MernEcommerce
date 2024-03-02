@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { useProductContext } from "./context/productcontex";
 import PageNavigation from "./components/PageNavigation";
 import MyImage from "./components/MyImage";
@@ -11,23 +11,26 @@ import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
 import { Button } from "./styles/Button";
+import { useCartContext } from "./context/cart_context";
 
 const API = "http://localhost:5000/api/getAllProducts";
 
 const SingleProduct = () => {
-  const { getSingleProduct, isSingleLoading, singleProduct } =
-    useProductContext();
+  const { getSingleProduct, isSingleLoading, singleProduct } = useProductContext();
+  const { addToCart } = useCartContext();
 
   const { id } = useParams();
 
   const {
     id: alias,
     title,
+    articleNo,
     company,
     price,
     description,
     category,
     stock,
+    colors,
     stars,
     reviews,
     images,
@@ -56,12 +59,12 @@ const SingleProduct = () => {
             <h2>{title}</h2>
             <Star stars={stars} reviews={reviews} />
 
-            <p className="product-data-price">
+            {/* <p className="product-data-price">
               MRP:
               <del>
-                <FormatPrice price={price + 250000} />
+                <FormatPrice price={price} />
               </del>
-            </p>
+            </p> */}
             <p className="product-data-price product-data-real-price">
               Deal of the Day: <FormatPrice price={price} />
             </p>
@@ -77,7 +80,6 @@ const SingleProduct = () => {
                 <p>30 Days Replacement</p>
               </div>
 
-              
               <div className="product-warranty-data">
                 <MdSecurity className="warranty-icon" />
                 <p>1 Year Warranty </p>
@@ -87,18 +89,43 @@ const SingleProduct = () => {
             <div className="product-data-info">
               <p>
                 Available:
-                <span> {stock > 0 ? "In Stock" : "Not Available"}</span>
+                {/* <span> {stock > 0 ? "In Stock" : "Not Available"}</span> */}
               </p>
               <p>
-                ID : <span> {id} </span>
+                ArticleNo : <span> {articleNo} </span>
               </p>
               <p>
                 Brand :<span> {company} </span>
               </p>
             </div>
             <hr />
-            {/* <button onClick={()=>console.log(singleProduct)}>click here</button> */}
-            {<AddToCart product={singleProduct} />}
+            {/* <div className="colors">
+        <p>
+          Color:
+          {colors.map((curColor, index) => {
+            return (
+              <button
+                key={index}
+                style={{ backgroundColor: curColor }} */}
+                {/* // className={color === curColor ? "btnStyle active" : "btnStyle"}
+                // onClick={() => setColor(curColor)} */}
+                {/* > */}
+                {/* {color === curColor ? <FaCheck className="checkStyle" /> : null} */}
+              {/* </button>
+            );
+          })}
+        </p>
+      </div> */}
+            <NavLink
+              to="/cart"
+              onClick={() => addToCart(id, colors, 5000, singleProduct)}
+            >
+              <Button className="btn">Add To Cart</Button>
+            </NavLink>
+            {/* <Button onClick={<AddToCart product={singleProduct} />}>
+              Add To Cart
+            </Button> */}
+            {/* {<AddToCart product={singleProduct} />} */}
           </div>
         </div>
       </Container>

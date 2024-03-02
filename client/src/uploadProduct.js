@@ -79,6 +79,7 @@ const handleUpload = async (e) => {
   } catch (error) {
     console.log(error);
   }
+
 };
  const [products, setProducts] = useState([]);
 
@@ -264,7 +265,7 @@ const handleUpload = async (e) => {
                 Upload
               </button>
             </form>
-            <div>
+            {/* <div>
               <h2>Product List</h2>
               <ul>
                 {products.map((product) => (
@@ -295,7 +296,7 @@ const handleUpload = async (e) => {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </Wrapper>
