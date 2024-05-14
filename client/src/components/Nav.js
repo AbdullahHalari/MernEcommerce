@@ -11,7 +11,7 @@ const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
   const { total_item } = useCartContext();
   // const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(false);
 
   const verifyToken = async (e) => {
     
@@ -24,18 +24,19 @@ const Nav = () => {
         const data = await response.json();
         const token = data.token;
         console.log("Login successful. Token:", token);
-        if (token == null || token === undefined || token === "") {
-          console.log("Setting token to null");
-          setToken(null);
-        } else {
-          console.log("Setting token:", token);
-          setToken(token);
-        }
+        // if (token == null || token === undefined || token === "") {
+        //   console.log("Setting token to null");
+          // setToken(null);
+        // } else {
+        //   console.log("Setting token:", token);
+          setToken(true);
+        // }
       } else {
-        console.error("Logout failed");
+        setToken(false)
+        console.error("Login failed");
       }
     } catch (error) {
-      console.error("Logout failed", error);
+      console.error("Login failed", error);
     }
   };
   const logOut = async (e) => {

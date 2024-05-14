@@ -51,7 +51,7 @@ const upload = multer({ storage: storage });
 // const upload = multer({ storage: storage });
 
 
-
+// credential ko include karen wo backend per data bhejta hai
 const verifyToken = (req, res, next) => {
   const token = req.cookies.token;
   console.log(token)
@@ -76,11 +76,21 @@ app.get('/token',(req,res)=>{
 // Signup route
 app.post("/api/signup", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
-    await user.save();
-    res.status(201).json({ message: "Signup successful" });
+    const { username, email, password } = req.body;
+    console.log(req.body)
+    // const hashedPassword = await bcrypt.hash(password, 12);
+     const salt = await bcrypt.genSalt(10);
+     const hashedPassword = await bcrypt.hash(password, salt);
+     const userExist = await User.findOne({ email: email });
+     if (userExist) {
+       return res.status(422).json({ error: "email already exist" });
+     }else{
+      console.log(password,hashedPassword)
+       const user = new User({username, email, password: hashedPassword });
+       await user.save();
+       console.log(user)
+       res.status(201).json({ message: "Signup successful" });
+      }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -91,22 +101,26 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(req.body)
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }else{
+      console.log('user',user)
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
 
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log(isPasswordValid); 
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid password" });
     }
-
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
-      expiresIn: "1h",
-    });
-
+    
+    const token = await user.generateAuthToken();
+    // const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
+    //   expiresIn: "1h",
+    // });
     res.cookie("token", token, { httpOnly: true });
     res.json({ token });
   } catch (error) {
@@ -233,3 +247,4 @@ app.get("/api/getAllProducts/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+

@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const app = express();
 
-const authenticate = require("./authenticate");
+// const authenticate = require("./authenticate");
 
 require("../dbcon")
 
