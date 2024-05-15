@@ -1,19 +1,19 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import About from "./About";
-import Home from "./Home";
-import Products from "./Products";
-import Contact from "./Contact";
-import Cart from "./Cart";
-import SingleProduct from "./SingleProduct";
-import UploadProduct from "./uploadProduct";
-import ErrorPage from "./ErrorPage";
+import About from "./pages/About";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
+import SingleProduct from "./pages/SingleProduct";
+import UploadProduct from "./pages/uploadProduct";
+import ErrorPage from "./pages/ErrorPage";
 import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Login from "./login";
-import OrderForm from "./OrderNow";
+import Login from "./pages/login";
+import OrderForm from "./pages/OrderNow";
 const App = () => {
   const theme = {
     colors: {

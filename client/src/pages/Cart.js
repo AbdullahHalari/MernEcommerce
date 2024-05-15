@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useCartContext } from "./context/cart_context";
-import CartItem from "./components/CartItem";
+import { useCartContext } from "../context/cart_context";
+import CartItem from "../components/CartItem";
 import { NavLink } from "react-router-dom";
-import { Button } from "./styles/Button";
-import FormatPrice from "./Helpers/FormatPrice";
+import { Button } from "../styles/Button";
+import FormatPrice from "../Helpers/FormatPrice";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Cart = () => {

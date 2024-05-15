@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
-import * as Components from "./components/login";
+import * as Components from "../components/login";
 import { Link, useNavigate, NavLink } from "react-router-dom";
+
 
 const  Login = ()=> {
   const [signIn, toggle] = useState(true);
@@ -100,9 +101,9 @@ const  Login = ()=> {
 
        if (response.ok) {
          const data = await response.json();
-        //  console.log(data)
+         console.log(data)
          navigate("/products",{replace:true});
-         window.location.reload(false);
+        //  window.location.reload(false);
         //  onLogin(data.token);
        } else {
          console.error("Login failed");

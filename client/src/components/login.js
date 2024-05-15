@@ -29,6 +29,7 @@ export const Container = styled.div`
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: relative;
   overflow: hidden;
+  flex-direction:column
   max-width: 100%;
   min-height: 400px;
   margin:20px;
@@ -78,11 +79,17 @@ export const Form = styled.form`
   padding: 0 50px;
   height: 100%;
   text-align: center;
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
 `;
 
 export const Title = styled.h1`
   font-weight: bold;
   margin: 0;
+  @media (max-width: 425px) {
+    font-size:15px
+  }
 `;
 
 export const Input = styled.input`
@@ -134,6 +141,7 @@ export const OverlayContainer = styled.div`
   z-index: 100;
   ${(props) =>
     props.signingIn !== true ? `transform: translateX(-100%);` : null}
+  
 `;
 
 export const Overlay = styled.div`
@@ -152,6 +160,7 @@ export const Overlay = styled.div`
   transition: transform 0.6s ease-in-out;
   ${(props) =>
     props.signingIn !== true ? `transform: translateX(50%);` : null}
+    
 `;
 
 export const OverlayPanel = styled.div`
@@ -167,6 +176,7 @@ export const OverlayPanel = styled.div`
   width: 50%;
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
+  
 `;
 
 export const LeftOverlayPanel = styled(OverlayPanel)`

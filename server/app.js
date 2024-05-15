@@ -69,8 +69,17 @@ const verifyToken = (req, res, next) => {
 };
 app.get('/token',(req,res)=>{
   const token = req.cookies.token;
-  // console.log(token)
-  res.status(201).json({ token });
+   if (!token) {
+     return res.status(401).json({ error: "Unauthorized: No token provided" });
+   }
+   try {
+     const decoded = jwt.verify(token, process.env.SECRET);
+     console.log(decoded)
+      res.status(200).json({ message: "Token is valid", token: token });
+     next();
+   } catch (error) {
+     return res.status(401).json({ error: "Unauthorized: Invalid token" });
+   }
   // res.send(token)
 })
 // Signup route
@@ -86,7 +95,7 @@ app.post("/api/signup", async (req, res) => {
        return res.status(422).json({ error: "email already exist" });
      }else{
       console.log(password,hashedPassword)
-       const user = new User({username, email, password: hashedPassword });
+       const user = new User({username, email,password});
        await user.save();
        console.log(user)
        res.status(201).json({ message: "Signup successful" });
@@ -109,14 +118,11 @@ app.post("/api/login", async (req, res) => {
     }else{
       console.log('user',user)
     }
-
-
     const isPasswordValid = await bcrypt.compare(password, user.password);
     console.log(isPasswordValid); 
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid password" });
-    }
-    
+    }   
     const token = await user.generateAuthToken();
     // const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
     //   expiresIn: "1h",

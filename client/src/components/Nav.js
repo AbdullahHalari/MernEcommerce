@@ -20,7 +20,7 @@ const Nav = () => {
         method: "GET",
         credentials: "include",
       });
-      if (response.status === 201) {
+      if (response.ok) {
         const data = await response.json();
         const token = data.token;
         console.log("Login successful. Token:", token);
@@ -29,7 +29,7 @@ const Nav = () => {
           // setToken(null);
         // } else {
         //   console.log("Setting token:", token);
-          setToken(true);
+          setToken(token);
         // }
       } else {
         setToken(false)

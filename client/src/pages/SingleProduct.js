@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useParams, NavLink } from "react-router-dom";
-import { useProductContext } from "./context/productcontex";
-import PageNavigation from "./components/PageNavigation";
-import MyImage from "./components/MyImage";
-import { Container } from "./styles/Container";
-import FormatPrice from "./Helpers/FormatPrice";
+import { useProductContext } from "../context/productcontex";
+import PageNavigation from "../components/PageNavigation";
+import MyImage from "../components/MyImage";
+import { Container } from "../styles/Container";
+import FormatPrice from "../Helpers/FormatPrice";
 import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
-import Star from "./components/Star";
-import AddToCart from "./components/AddToCart";
-import { Button } from "./styles/Button";
-import { useCartContext } from "./context/cart_context";
+import Star from "../components/Star";
+import AddToCart from "../components/AddToCart";
+import { Button } from "../styles/Button";
+import { useCartContext } from "../context/cart_context";
 
 const API = "http://localhost:5000/api/getAllProducts";
 
