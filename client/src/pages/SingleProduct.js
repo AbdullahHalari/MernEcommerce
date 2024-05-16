@@ -1,24 +1,19 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import styled from "styled-components";
 import { useParams, NavLink } from "react-router-dom";
-import { useProductContext } from "../context/productcontex";
 import PageNavigation from "../components/PageNavigation";
 import MyImage from "../components/MyImage";
 import { Container } from "../styles/Container";
-import FormatPrice from "../Helpers/FormatPrice";
 import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "../components/Star";
 import AddToCart from "../components/AddToCart";
 import { Button } from "../styles/Button";
-import { useCartContext } from "../context/cart_context";
 
 const API = "http://localhost:5000/api/getAllProducts";
 
 const SingleProduct = () => {
-  const { getSingleProduct, isSingleLoading, singleProduct } = useProductContext();
-  const { addToCart } = useCartContext();
-
+  const [color,setColor] = useState('');
   const { id } = useParams();
 
   const {
@@ -34,15 +29,15 @@ const SingleProduct = () => {
     stars,
     reviews,
     images,
-  } = singleProduct;
+  } = 'singleProduct';
 
   useEffect(() => {
-    getSingleProduct(`${API}/${id}`);
+    // getSingleProduct(`${API}/${id}`);
   }, []);
 
-  if (isSingleLoading) {
-    return <div className="page_loading">Loading.....</div>;
-  }
+  // if (isSingleLoading) {
+  //   return <div className="page_loading">Loading.....</div>;
+  // }
 
   return (
     <Wrapper>
@@ -66,7 +61,7 @@ const SingleProduct = () => {
               </del>
             </p> */}
             <p className="product-data-price product-data-real-price">
-              Deal of the Day: <FormatPrice price={price} />
+              {/* Deal of the Day: <FormatPrice price={price} /> */}
             </p>
             <p>{description}</p>
             <div className="product-data-warranty">
@@ -99,29 +94,31 @@ const SingleProduct = () => {
               </p>
             </div>
             <hr />
-            {/* <div className="colors">
-        <p>
-          Color:
-          {colors.map((curColor, index) => {
-            return (
-              <button
-                key={index}
-                style={{ backgroundColor: curColor }} */}
-                {/* // className={color === curColor ? "btnStyle active" : "btnStyle"}
-                // onClick={() => setColor(curColor)} */}
-                {/* > */}
-                {/* {color === curColor ? <FaCheck className="checkStyle" /> : null} */}
-              {/* </button>
-            );
-          })}
-        </p>
-      </div> */}
-            <NavLink
-              to="/cart"
-              onClick={() => addToCart(id, colors, 5000, singleProduct)}
-            >
+            <div className="colors">
+              <p>
+                Color:
+                {/* {colors.map((curColor, index) => {
+                  return (
+                    <button
+                      key={index}
+                      style={{ backgroundColor: curColor,width:50,height:50,margin:10 }}
+                      className={
+                        color === curColor ? "btnStyle active" : "btnStyle"
+                      }
+                      onClick={() => setColor(curColor)}
+                    >
+                      {color === curColor ? (
+                        'd'
+                      ) : null}
+                    </button>
+                    // <p>{curColor}</p>
+                  )
+                })} */}
+              </p>
+            </div>
+            {/* <NavLink onClick={() => console.log(id, colors, 5000, singleProduct)}>
               <Button className="btn">Add To Cart</Button>
-            </NavLink>
+            </NavLink> */}
             {/* <Button onClick={<AddToCart product={singleProduct} />}>
               Add To Cart
             </Button> */}

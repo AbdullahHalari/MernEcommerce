@@ -1,23 +1,21 @@
-import { useProductContext } from "../context/productcontex";
 import styled from "styled-components";
 import Product from "./Product";
 
 const FeatureProduct = () => {
-  const { isLoading, featureProducts } = useProductContext();
 
-  if (isLoading) {
-    return <div> ......Loading </div>;
-  }
+  // if (isLoading) {
+  //   return <div> ......Loading </div>;
+  // }
 
   return (
     <Wrapper className="section">
       <div className="container">
         <div className="intro-data">Check Now!</div>
-        <div className="common-heading">Our Feature Services</div>
+        <div className="common-heading">Our Feature Products</div>
         <div className="grid grid-three-column">
-          {featureProducts.map((curElem) => {
+          {/* {featureProducts.map((curElem) => {
             return <Product key={curElem.id} {...curElem} />;
-          })}
+          })} */}
         </div>
       </div>
     </Wrapper>

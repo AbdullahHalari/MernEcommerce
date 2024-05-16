@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
-import * as Components from "../components/login";
+import * as Components from "../components/loginComp";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 
 
@@ -103,7 +103,7 @@ const  Login = ()=> {
          const data = await response.json();
          console.log(data)
          navigate("/products",{replace:true});
-        //  window.location.reload(false);
+         window.location.reload(false);
         //  onLogin(data.token);
        } else {
          console.error("Login failed");
@@ -154,7 +154,7 @@ const  Login = ()=> {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Components.Anchor href="#">Forgot your password?</Components.Anchor>
+          <Components.Anchor href="/forgotpassword">Forgot your password?</Components.Anchor>
           <Components.Button onClick={login}>Sign In</Components.Button>
         </Components.Form>
       </Components.SignInContainer>

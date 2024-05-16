@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useCartContext } from "../context/cart_context";
 import { Button } from "../styles/Button";
 
 const OrderForm = () => {
@@ -11,7 +10,6 @@ const OrderForm = () => {
     address: "",
   });
 
-  const { cart, clearCart, total_price, shipping_fee } = useCartContext();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +21,7 @@ const OrderForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(cart)
+    // console.log(cart)
     console.log("Customer Details:", customerDetails);
   };
 
@@ -32,9 +30,9 @@ const OrderForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="upload-form">
           <div className="form-group">
-            <p>Total Amount =  {total_price / 100}</p>
+            {/* <p>Total Amount =  {total_price / 100}</p>
             <p>Shipping Amount = {shipping_fee / 100}</p>
-            <p>Total Bill = {(total_price+shipping_fee)/100}</p>
+            <p>Total Bill = {(total_price+shipping_fee)/100}</p> */}
           </div>
           <div className="form-group">
             <label htmlFor="title">Name:</label>

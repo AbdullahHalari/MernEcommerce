@@ -37,3 +37,164 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex: 1;
+  margin: auto;
+
+}
+
+.form {
+
+  width: 80%;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #e6e4e4;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.form h3 {
+  font-weight: bolder;
+}
+
+.userid {
+  padding-top: 10px;
+  display: flex;
+  font-weight: 400;
+
+}
+
+.useridbox {
+  border-radius: 10px;
+  width: 80%;
+  /* height: 35px; */
+  background-color: #bbb7b7;
+  border: 1px solid #bbb7b7;
+}
+
+
+
+.button1 {
+  border: 1px solid #000000;
+  width: 150px;
+  height: 40px;
+  background-color: #fc6c85;
+  border-radius: 15px;
+  margin-top: -30px;
+  font-weight: bold;
+  color: white;
+  margin: 20px;
+}
+
+.button1:hover {
+  background-color: #e6e4e4;
+  color: #fc6c85;
+  border: 3px solid #fc6c85;
+  cursor: pointer;
+}
+
+.loginbutton {
+  text-decoration: none;
+  color: #e6e4e4;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loginbutton:hover {
+  color: #000000;
+  cursor: pointer;
+}
+
+.button2 {
+  border: 3px solid #fc6c85;
+  width: 150px;
+  height: 40px;
+  background-color: #e6e4e4;
+  border-radius: 15px;
+  margin-left: 10px;
+}
+
+.signupbutton {
+  text-decoration: none;
+  color: #000000;
+  font-weight: 700;
+
+}
+
+.button2:hover {
+  background-color: #fc6c85;
+  color: #e6e4e4;
+}
+
+.signupbutton:hover {
+  color: #FFFFFF;
+  background-color: #000000;
+}
+
+
+.ortext {
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+.clickhere {
+  color: #279BEF
+}
+
+.forgotpassword {
+  font-size: smaller;
+  padding-top: 20px;
+  font-weight: lighter;
+}
+
+.useridbox {
+  padding-left: 10px;
+}
+
+.passwordtext {
+  display: flex;
+  font-weight: 400;
+  padding-top: 10px;
+
+}
+
+.passwordbox {
+  border-radius: 10px;
+  width: 82%;
+  /* height: 35px; */
+  background-color: #bbb7b7;
+  border: 1px solid #bbb7b7;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.password {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.passwordtextbox {
+  border: none;
+  flex: 1;
+  /* margin: 10px; */
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+}
+
+.eye-btn {
+  background-color: #bbb7b7;
+  border: 1px solid #bbb7b7;
+  border-radius: 10px;
+}

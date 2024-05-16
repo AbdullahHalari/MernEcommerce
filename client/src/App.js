@@ -14,6 +14,10 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/login";
 import OrderForm from "./pages/OrderNow";
+import ForgotPassword from "./pages/forgotpassword";
+import Resetpassword from "./pages/resetpassword"
+import "./App.css";
+
 const App = () => {
   const theme = {
     colors: {
@@ -55,6 +59,8 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/uploadproduct" element={<UploadProduct />} />
           <Route path="/ordernow" element={<OrderForm />} />
+          <Route path="/resetpassword" element={<Resetpassword />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

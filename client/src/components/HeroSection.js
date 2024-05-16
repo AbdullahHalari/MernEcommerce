@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "../styles/Button";
 
 const HeroSection = ({ myData }) => {
-  const { name,detail } = myData;
+  const { name,detail,image } = myData;
 
   return (
     <Wrapper>
@@ -21,13 +21,13 @@ const HeroSection = ({ myData }) => {
           </div>
           {/* our homepage image  */}
           <div className="hero-section-image">
-            <figure>
+            {/* <figure> */}
               <img
-                src="images/1.jpg"
+                src={image}
                 alt="hero-section-photo"
                 className="img-style"
               />
-            </figure>
+            {/* </figure> */}
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@ const Wrapper = styled.section`
       content: "";
       width: 60%;
       height: 100%;
-      background-color: rgba(255, 209, 220);
+      background-color: red;
       position: absolute;
       left: 50%;
       top: -5rem;

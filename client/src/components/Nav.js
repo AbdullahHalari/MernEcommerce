@@ -3,13 +3,11 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
-import { useCartContext } from "../context/cart_context";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "../styles/Button";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
-  const { total_item } = useCartContext();
   // const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [token, setToken] = useState(false);
 
@@ -292,7 +290,7 @@ const Nav = () => {
               onClick={() => setMenuIcon(false)}
             >
               <FiShoppingCart className="cart-trolley" />
-              <span className="cart-total--item"> {total_item} </span>
+              <span className="cart-total--item"> {'total_item'} </span>
             </NavLink>
           </li>
         </ul>

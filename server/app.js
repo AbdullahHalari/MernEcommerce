@@ -58,7 +58,6 @@ const verifyToken = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
-
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
     req.userId = decoded.userId;
@@ -76,7 +75,8 @@ app.get('/token',(req,res)=>{
      const decoded = jwt.verify(token, process.env.SECRET);
      console.log(decoded)
       res.status(200).json({ message: "Token is valid", token: token });
-     next();
+      console.log(token)
+    //  next();
    } catch (error) {
      return res.status(401).json({ error: "Unauthorized: Invalid token" });
    }
@@ -144,6 +144,80 @@ app.post("/api/logout", (req, res) => {
   res.json({ message: "Logout successful" });
 });
 
+app.post("/api/forgotpassword", async (req, res) => {
+  try {
+    // Find the user by email
+    const user = await User.findOne({ email: req.body.email });
+    console.log(user);
+    // If user not found, send error message
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    // Generate a unique JWT token for the user that contains the user's id
+    const token = jwt.sign({ userId: user._id }, process.env.SECRETKEY, {
+      expiresIn: "10m",
+    });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.email,
+        pass: process.env.password,
+      },
+    });
+
+    // Email configuration
+    const mailOptions = {
+      from: `Polidemocracy<${process.env.email}>`,
+      to: req.body.email,
+      subject: "Reset Password",
+      html: `<h1>Reset Your Password</h1>
+    <p>Click on the following link to reset your password:</p>
+    <a href="http://localhost:3000/resetpassword/${token}">http://localhost:3000/resetpassword/${token}</a>
+    <p>The link will expire in 10 minutes.</p>
+    <p>If you didn't request a password reset, please ignore this email.</p>`,
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send({ error: err.message });
+      }
+      res.status(200).send({ message: "Email sent" });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "invalid /server error" });
+  }
+});
+
+app.post("/api/resepassword/:token", async (req, res) => {
+  try {
+    const decodedToken = jwt.verify(req.params.token, process.env.SECRETKEY);
+
+    if (!decodedToken) {
+      return res.status(401).send({ message: "Invalid token" });
+    }
+
+    const user = await User.findOne({ _id: decodedToken.userId });
+    if (!user) {
+      return res.status(401).send({ message: "no user found" });
+    }
+
+    user.password = req.body.password;
+    await user.save();
+
+    console.log("password updated");
+    res.status(200).send({ message: "Password updated" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "reset link expired" });
+  }
+});
 
 app.post(
   "/api/productUpload",
