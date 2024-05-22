@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Product from "./Product";
 
 const GridView = ({ products }) => {
-
+  console.log(products)
   return (
 
     <Wrapper className="section">
@@ -69,6 +69,8 @@ const Wrapper = styled.section`
     }
 
     .card-data-flex {
+      
+      flex-direction: column;
       margin: 2rem 0;
       display: flex;
       justify-content: space-between;

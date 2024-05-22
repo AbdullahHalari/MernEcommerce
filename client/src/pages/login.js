@@ -9,6 +9,7 @@ const  Login = ()=> {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [error,setError] = useState("")
   const navigate = useNavigate();
   async function signUp(e) {
     // try {

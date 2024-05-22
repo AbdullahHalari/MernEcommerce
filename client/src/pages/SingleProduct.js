@@ -1,47 +1,83 @@
-import { useEffect,useState } from "react";
+import React,{ useEffect,useState } from "react";
 import styled from "styled-components";
 import { useParams, NavLink } from "react-router-dom";
 import PageNavigation from "../components/PageNavigation";
 import MyImage from "../components/MyImage";
 import { Container } from "../styles/Container";
 import { MdSecurity } from "react-icons/md";
-import { TbTruckDelivery, TbReplace } from "react-icons/tb";
+import { TbTruckDelivery, TbReplace, TbMinus,TbPlus } from "react-icons/tb";
 import Star from "../components/Star";
 import AddToCart from "../components/AddToCart";
 import { Button } from "../styles/Button";
-
-const API = "http://localhost:5000/api/getAllProducts";
-
+import { useDispatch, useSelector } from "react-redux";
+import  {addToCart}  from "../store/addToCart";
 const SingleProduct = () => {
   const [color,setColor] = useState('');
+  const [colors,setColors] = useState([])
+  const [singleProduct,setSingleProduct] = useState([])
   const { id } = useParams();
+  const [amount, setAmount] = useState(1);
+  const dispatch = useDispatch()
+  const handleDecrement = () => {
+    amount > 1
+      ? setAmount((prevAmount) => prevAmount - 1)
+      : setAmount((prevAmount) => prevAmount);
+  };
 
+  const handleIncrement = () => {
+    setAmount((prevAmount) => prevAmount + 1);
+  };
+  const addItem = (id, title, images, color, price,quantity) => {
+    try {
+      dispatch(addToCart({id, title, images, color, price,quantity}));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const {
     id: alias,
-    title,
     articleNo,
-    company,
-    price,
-    description,
     category,
-    stock,
-    colors,
+    company,
+    description,
+    featured,
+    images,
+    price,
+    title,
     stars,
     reviews,
-    images,
-  } = 'singleProduct';
+    stock
+  } = singleProduct;
 
-  useEffect(() => {
-    // getSingleProduct(`${API}/${id}`);
-  }, []);
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/getAllProducts/${id}`
+          );
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log(data);
+          setSingleProduct(data);
+          setColors(data.colors)
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      };
+
+      fetchProducts();
+    }, []);
 
   // if (isSingleLoading) {
   //   return <div className="page_loading">Loading.....</div>;
   // }
-
+// console.log(colors)
   return (
     <Wrapper>
-      <PageNavigation title={title} />
+      {/* <PageNavigation title={title} /> */}
       <Container className="container">
         <div className="grid grid-two-column">
           {/* product Images  */}
@@ -52,7 +88,7 @@ const SingleProduct = () => {
           {/* product dAta  */}
           <div className="product-data">
             <h2>{title}</h2>
-            <Star stars={stars} reviews={reviews} />
+            <Star stars={2} reviews={6} />
 
             {/* <p className="product-data-price">
               MRP:
@@ -61,7 +97,7 @@ const SingleProduct = () => {
               </del>
             </p> */}
             <p className="product-data-price product-data-real-price">
-              {/* Deal of the Day: <FormatPrice price={price} /> */}
+              Deal of the Day: {price}
             </p>
             <p>{description}</p>
             <div className="product-data-warranty">
@@ -82,10 +118,10 @@ const SingleProduct = () => {
             </div>
 
             <div className="product-data-info">
-              <p>
+              {/* <p>
                 Available:
-                {/* <span> {stock > 0 ? "In Stock" : "Not Available"}</span> */}
-              </p>
+                <span> {stock > 0 ? "In Stock" : "Not Available"}</span>
+              </p> */}
               <p>
                 ArticleNo : <span> {articleNo} </span>
               </p>
@@ -95,9 +131,26 @@ const SingleProduct = () => {
             </div>
             <hr />
             <div className="colors">
-              <p>
-                Color:
-                {/* {colors.map((curColor, index) => {
+              <p>Color:</p>
+
+              {colors.map((curColor, index) => (
+                <button
+                  key={index}
+                  style={{
+                    backgroundColor: curColor,
+                    width: 50,
+                    height: 50,
+                    margin: 10,
+                  }}
+                  className={
+                    color === curColor ? "btnStyle active" : "btnStyle"
+                  }
+                  onClick={() => setColor(curColor)}
+                >
+                  {color === curColor ? "☑" : null}
+                </button>
+              ))}
+              {/* {colors.map((curColor, index) => {
                   return (
                     <button
                       key={index}
@@ -108,21 +161,40 @@ const SingleProduct = () => {
                       onClick={() => setColor(curColor)}
                     >
                       {color === curColor ? (
-                        'd'
+                        '☑'
                       ) : null}
                     </button>
+                    
                     // <p>{curColor}</p>
                   )
                 })} */}
-              </p>
+              <div className="cart-button">
+                <div className="amount-toggle">
+                  <button onClick={handleDecrement}>
+                    <TbMinus />
+                  </button>
+                  <div className="amount-style">{amount}</div>
+                  <button onClick={handleIncrement}>
+                    <TbPlus />
+                  </button>
+                </div>
+              </div>
             </div>
-            {/* <NavLink onClick={() => console.log(id, colors, 5000, singleProduct)}>
-              <Button className="btn">Add To Cart</Button>
-            </NavLink> */}
+            <NavLink
+              to={{
+                pathname: "/cart",
+              }}
+            >
+              <Button
+                className="btn"
+                onClick={() => addItem(id, title, images[0], color, price,amount)}
+              >
+                Add To Cart
+              </Button>
+            </NavLink>
             {/* <Button onClick={<AddToCart product={singleProduct} />}>
               Add To Cart
             </Button> */}
-            {/* {<AddToCart product={singleProduct} />} */}
           </div>
         </div>
       </Container>
@@ -212,6 +284,25 @@ const Wrapper = styled.section`
   }
   @media (max-width: ${({ theme }) => theme.media.mobile}) {
     padding: 0 2.4rem;
+  }
+  .amount-toggle {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.4rem;
+
+    button {
+      border: none;
+      background-color: #fff;
+      cursor: pointer;
+    }
+
+    .amount-style {
+      font-size: 2.4rem;
+      color: ${({ theme }) => theme.colors.btn};
+    }
   }
 `;
 

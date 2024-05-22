@@ -22,7 +22,8 @@ const AddToCart = ({ product }) => {
 
   return (
     <Wrapper>
-      {/* <div className="colors">
+      <h1>cart</h1>
+      <div className="colors">
         <p>
           Color:
           {colors.map((curColor, index) => {
@@ -37,14 +38,14 @@ const AddToCart = ({ product }) => {
             );
           })}
         </p>
-      </div> */}
+      </div>
 
       {/* add to cart  */}
-      {/* <CartAmountToggle
+      <CartAmountToggle
         amount={amount}
         setDecrease={setDecrease}
         setIncrease={setIncrease}
-      /> */}
+      />
 
       {/* <NavLink to="/cart" onClick={() => addToCart(id, color, amount, product)}>
         <Button className="btn">Add To Cart</Button>

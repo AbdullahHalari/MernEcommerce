@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,useLocation } from "react-router-dom";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -44,9 +44,19 @@ const App = () => {
     },
   };
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0); // Scrolls to the top on route change
+  }, [pathname]);
+
+  return null; // This component doesn't render anything, it just handles scrolling
+}
   return (
     <ThemeProvider theme={theme}>
       <Router>
+        <ScrollToTop />
         <GlobalStyle />
         <Header />
         <Routes>
@@ -59,7 +69,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/uploadproduct" element={<UploadProduct />} />
           <Route path="/ordernow" element={<OrderForm />} />
-          <Route path="/resetpassword" element={<Resetpassword />} />
+          <Route path="/resetpassword/:token" element={<Resetpassword />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>

@@ -75,32 +75,13 @@ const handleUpload = async (e) => {
       console.log("Invalid");
     } else {
       console.log("Success");
+      window.location.reload()
     }
   } catch (error) {
     console.log(error);
   }
 
 };
- const [products, setProducts] = useState([]);
-
- useEffect(() => {
-   const fetchProducts = async () => {
-     try {
-       const response = await fetch("http://localhost:5000/api/getAllProducts");
-       if (!response.ok) {
-         throw new Error(`HTTP error! Status: ${response.status}`);
-       }
-
-       const data = await response.json();
-       setProducts(data);
-     } catch (error) {
-       console.error("Error fetching products:", error);
-     }
-   };
-
-   fetchProducts();
-   console.log(products)
- }, []);
   return (
     <>
       <Wrapper>

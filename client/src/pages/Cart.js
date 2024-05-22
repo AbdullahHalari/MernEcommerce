@@ -3,23 +3,25 @@ import CartItem from "../components/CartItem";
 import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch, useSelector } from "react-redux";
+import FormatPrice from "../helper/formatPrice";
+import { useState } from "react";
+import { cartTotal } from "../store/addToCart";
 
 const Cart = () => {
-  // console.log("🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart", cart);
-
   const { isAuthenticated, user } = useAuth0();
-
-  // if (cart.length === 0) {
-  //   return (
-  //     <EmptyDiv>
-  //       <h3>No Cart in Item </h3>
-  //     </EmptyDiv>
-  //   );
-  // }
+  const cart = useSelector((state)=>state.addCart.cart)
+  if (cart.length === 0) {
+    return (
+      <EmptyDiv>
+        <h3>No Cart in Item </h3>
+      </EmptyDiv>
+    );
+  }
 
   return (
     <Wrapper>
-      <div className="container">
+      <div style={{margin:100}}>
         {isAuthenticated && (
           <div className="cart-user--profile">
             <img src={user.profile} alt={user.name} />
@@ -36,18 +38,17 @@ const Cart = () => {
         </div>
         <hr />
         <div className="cart-item">
-          {/* {cart.map((curElem) => {
-            return <CartItem key={curElem.id} {...curElem} />;
-          })} */}
+          {cart.map((curElem,index) => {
+           
+            return <CartItem key={index} {...curElem} />;
+          })}
         </div>
         <hr />
         <div className="cart-two-button">
           <NavLink to="/products">
             <Button> continue Shopping </Button>
           </NavLink>
-          <Button className="btn btn-clear" >
-            clear cart
-          </Button>
+          <Button className="btn btn-clear">clear cart</Button>
         </div>
 
         {/* order total_amount */}
@@ -55,27 +56,19 @@ const Cart = () => {
           <div className="order-total--subdata">
             <div>
               <p>subtotal:</p>
-              <p>
-                {/* <FormatPrice price={total_price} /> */}
-              </p>
+              <p><FormatPrice price={500} /></p>
             </div>
             <div>
               <p>shipping fee:</p>
-              <p>
-                {/* <FormatPrice price={shipping_fee} /> */}
-              </p>
+              <p><FormatPrice price={250} /></p>
             </div>
             <hr />
             <div>
               <p>order total:</p>
-              <p>
-                {/* <FormatPrice price={shipping_fee + total_price} /> */}
-              </p>
+              <p><FormatPrice price={343 + 344} /></p>
             </div>
           </div>
-          <Button className="btn btn-clear" >
-          Check Out
-          </Button>
+          <Button className="btn btn-clear" >Check Out</Button>
         </div>
       </div>
     </Wrapper>

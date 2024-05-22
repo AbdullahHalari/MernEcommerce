@@ -84,7 +84,7 @@ const ResetPassword = () => {
             <p class="error">{error}</p>
             <br />
             <button className="button1" type="submit">
-              Send Email
+              Reset Password
             </button>
           </form>
         </div>

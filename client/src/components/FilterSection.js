@@ -1,28 +1,53 @@
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
 import { Button } from "../styles/Button";
-
+import { useEffect, useState } from "react";
+import FormatPrice from "../helper/formatPrice";
 const FilterSection = () => {
-  
-
   // get the unique values of each property
+  const [products,setProducts] = useState([])
+  const [category,setCategory] = useState('')
+  const [color, setColor] = useState([]);
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/getAllProducts"
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log(data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   const getUniqueData = (data, attr) => {
     let newVal = data.map((curElem) => {
       return curElem[attr];
     });
 
     if (attr === "colors") {
-      // return (newVal = ["All", ...new Set([].concat(...newVal))]);
-      newVal = newVal.flat();
+      // console.log((newVal = [...new Set([].concat(...newVal))]));
+      return (newVal = [ ...new Set([].concat(...newVal))]);
+      // newVal = newVal.flat();
     }
 
     return (newVal = ["all", ...new Set(newVal)]);
   };
 
   // we need to have the individual data of each in an array format
-  // const categoryData = getUniqueData(all_products, "category");
-  // const companyData = getUniqueData(all_products, "company");
-  // const colorsData = getUniqueData(all_products, "colors");
+  const categoryData = getUniqueData(products, "category");
+  const companyData = getUniqueData(products, "company");
+  const colorsData = getUniqueData(products, "colors");
   // console.log(
   //   "🚀 ~ file: FilterSection.js ~ line 23 ~ FilterSection ~ companyData",
   //   colorsData
@@ -31,7 +56,7 @@ const FilterSection = () => {
   return (
     <Wrapper>
       <div className="filter-search">
-        <form onSubmit={(e) => e.preventDefault()}>
+        {/* <form onSubmit={(e) => e.preventDefault()}>
           <input
             type="text"
             name="text"
@@ -39,13 +64,13 @@ const FilterSection = () => {
             // value={text}
             // onChange={updateFilterValue}
           />
-        </form>
+        </form> */}
       </div>
 
       <div className="filter-category">
         <h3>Category</h3>
         <div>
-          {/* {categoryData.map((curElem, index) => {
+          {categoryData.map((curElem, index) => {
             return (
               <button
                 key={index}
@@ -53,11 +78,12 @@ const FilterSection = () => {
                 name="category"
                 value={curElem}
                 className={curElem === category ? "active" : ""}
-                onClick={updateFilterValue}>
+                onClick={(e) => setCategory(e.target.value)}
+              >
                 {curElem}
               </button>
             );
-          })} */}
+          })}
         </div>
       </div>
 
@@ -70,14 +96,14 @@ const FilterSection = () => {
             id="company"
             className="filter-company--select"
             // onClick={updateFilterValue}
-            >
-            {/* {companyData.map((curElem, index) => {
+          >
+            {companyData.map((curElem, index) => {
               return (
                 <option key={index} value={curElem} name="company">
                   {curElem}
                 </option>
               );
-            })} */}
+            })}
           </select>
         </form>
       </div>
@@ -86,55 +112,73 @@ const FilterSection = () => {
         <h3>Colors</h3>
 
         {/* <div className="filter-color-style">
-          {colorsData.map((curColor, index) => {
-            if (curColor === "all") {
-              return (
-                <button
-                  key={index}
-                  type="button"
-                  value={curColor}
-                  name="color"
-                  className="color-all--style"
-                  onClick={updateFilterValue}>
-                  all
-                </button>
-              );
-            }
-            return (
-              <button
+          <select
+            name="color"
+            id="color"
+            style={{ backgroundColor: color,padding:10 }}
+            className="filter-color--select"
+            value={color}
+            onChange={(e) => {
+              setColor(e.target.value);
+              console.log(color);
+            }}
+          >
+            <option value="">Select a color</option>
+            {colorsData.map((curColor, index) => (
+              <option
                 key={index}
-                type="button"
                 value={curColor}
-                name="color"
-                style={{ backgroundColor: curColor }}
-                className={color === curColor ? "btnStyle active" : "btnStyle"}
-                onClick={updateFilterValue}>
-                {color === curColor ? <FaCheck className="checkStyle" /> : null}
-              </button>
-            );
-          })}
+                style={{ backgroundColor: curColor,padding:10 }}
+              >
+                <button
+                  type="button"
+                  value={color}
+                  name="color"
+                  style={{ backgroundColor: color }}
+                  className={`btnStyle ${color ? "active" : ""}`}
+                  onClick={(e) => {
+                    setColor(e.target.value);
+                    console.log(color);
+                  }}
+                >
+                  {color && <FaCheck className="checkStyle" />}
+                </button>
+              </option>
+            ))}
+          </select>
         </div> */}
+         {colorsData.map((curColor, index) => (
+           <button
+           key={index}
+           type="button"
+           value={curColor}
+           name="color"
+           style={{ backgroundColor: curColor }}
+           className={color.includes(curColor) ? "btnStyle active" : "btnStyle"}
+           onClick={(e)=>{setColor([e.target.value, ...color]); console.log(color)}}
+           >
+          {color.includes(curColor) ? <FaCheck className="checkStyle" /> : null}
+        </button>
+          ))}
       </div>
 
       <div className="filter_price">
         <h3>Price</h3>
-        <p>
-          {/* <FormatPrice price={price} /> */}
-        </p>
+        <h3>
+          <FormatPrice price={price} />
+        </h3>
         <input
           type="range"
           name="price"
-          // min={minPrice}
-          // max={maxPrice}
-          // value={price}
-          // onChange={updateFilterValue}
+          min={0}
+          max={25000}
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
         />
       </div>
 
       <div className="filter-clear">
-        <Button className="btn" >
-          Clear Filters
-        </Button>
+        <Button className="btn">Clear Filters</Button>
       </div>
     </Wrapper>
   );

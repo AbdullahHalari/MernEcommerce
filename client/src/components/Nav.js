@@ -5,10 +5,13 @@ import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "../styles/Button";
-
+import { useSelector } from "react-redux";
+import addToCart from "../store/addToCart";
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
   // const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+    const cart = useSelector((state) => state.addCart.cart);
+
   const [token, setToken] = useState(false);
 
   const verifyToken = async (e) => {
@@ -290,7 +293,7 @@ const Nav = () => {
               onClick={() => setMenuIcon(false)}
             >
               <FiShoppingCart className="cart-trolley" />
-              <span className="cart-total--item"> {'total_item'} </span>
+              <span className="cart-total--item"> {cart.length} </span>
             </NavLink>
           </li>
         </ul>

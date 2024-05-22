@@ -1,58 +1,68 @@
 import React, { useState } from "react";
 import CartAmountToggle from "./CartAmountToggle";
 import { FaTrash } from "react-icons/fa";
+import FormatPrice from "../helper/formatPrice";
+import { useDispatch, UseDispatch } from "react-redux";
+import { removeToCart } from "../store/addToCart";
+const CartItem = ({ id, title, images, color, price, quantity }) => {
 
-const CartItem = ({ id, name, image, color, price, amount }) => {
+   const [amount, setAmount] = useState(quantity);
+  const dispatch = useDispatch();
+   const handleDecrement = () => {
+     amount > 1
+       ? setAmount((prevAmount) => prevAmount - 1)
+       : setAmount((prevAmount) => prevAmount);
+   };
 
-  // const setDecrease = () => {
-  //   amount > 1 ? setAmounts(amount - 1) : setAmounts(1);
-  // };
-
-  // const setIncrease = () => {
-  //   amount < stock ? setAmounts(amount + 1) : setAmounts(stock);
-  // };
-
+   const handleIncrement = () => {
+     setAmount((prevAmount) => prevAmount + 1);
+   };
+   function remove(){
+    dispatch(removeToCart({id:id}))
+   }
   return (
     <div className="cart_heading grid grid-five-column">
       <div className="cart-image--name">
         <div>
           <figure>
-            <img src={image} alt={id} />
+            <img
+              src={`http://localhost:5000/uploads/${images.filename}`}
+              alt={id}
+            />
           </figure>
         </div>
         <div>
-          <p>{name}</p>
+          <p>{title}</p>
           <div className="color-div">
             <p>color:</p>
             <div
               className="color-style"
-              style={{ backgroundColor: color, color: color }}></div>
+              style={{ backgroundColor: color, color: color }}
+            ></div>
           </div>
         </div>
       </div>
-      {/* price   */}
+
       <div className="cart-hide">
         <p>
-          {/* <FormatPrice price={price} /> */}
+          <FormatPrice price={price} />
         </p>
       </div>
-
       {/* Quantity  */}
-      {/* <CartAmountToggle
+      <CartAmountToggle
         amount={amount}
-        setDecrease={() => setDecrease(id)}
-        setIncrease={() => setIncrement(id)}
-      /> */}
-
+        setDecrease={handleDecrement}
+        setIncrease={handleIncrement}
+      />
       {/* //Subtotal */}
       <div className="cart-hide">
         <p>
-          {/* <FormatPrice price={price * amount} /> */}
+          <FormatPrice price={price * amount} />
         </p>
+       
       </div>
-
       <div>
-        <FaTrash className="remove_icon"  />
+        <FaTrash className="remove_icon" onClick={remove}/>
       </div>
     </div>
   );

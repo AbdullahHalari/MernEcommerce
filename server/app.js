@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
-
+const nodemailer = require("nodemailer")
 app.use(
   cors({
     origin: "http://localhost:3000", // Replace with your client's origin
@@ -155,7 +155,7 @@ app.post("/api/forgotpassword", async (req, res) => {
     }
 
     // Generate a unique JWT token for the user that contains the user's id
-    const token = jwt.sign({ userId: user._id }, process.env.SECRETKEY, {
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
       expiresIn: "10m",
     });
     const transporter = nodemailer.createTransport({
@@ -171,7 +171,7 @@ app.post("/api/forgotpassword", async (req, res) => {
 
     // Email configuration
     const mailOptions = {
-      from: `Polidemocracy<${process.env.email}>`,
+      from: `Libaas<${process.env.email}>`,
       to: req.body.email,
       subject: "Reset Password",
       html: `<h1>Reset Your Password</h1>
@@ -197,7 +197,7 @@ app.post("/api/forgotpassword", async (req, res) => {
 
 app.post("/api/resepassword/:token", async (req, res) => {
   try {
-    const decodedToken = jwt.verify(req.params.token, process.env.SECRETKEY);
+    const decodedToken = jwt.verify(req.params.token, process.env.SECRET);
 
     if (!decodedToken) {
       return res.status(401).send({ message: "Invalid token" });
