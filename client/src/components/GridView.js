@@ -1,17 +1,33 @@
 import React from "react";
 import styled from "styled-components";
 import Product from "./Product";
-
+import { useSelector } from "react-redux";
 const GridView = ({ products }) => {
-  console.log(products)
+  // console.log(products )
+   const { company, price, colors, category } = useSelector(
+     (state) => state.filter
+   );
+   console.log(company, price, colors, category);
+ const filteredProducts = products.filter(
+   (product) =>
+     (company == "all" || product.company === company) &&
+     (price == 0 || product.price <= parseFloat(price)) &&
+     (colors.length == 0 | product.colors.some(color => colors.includes(color)))&&
+     (category == "all" || product.category === category)
+ );
+ console.log(
+   filteredProducts,products.filter((product) =>
+     product.colors.some((color) => colors.includes(color))
+   )
+ );
   return (
-
     <Wrapper className="section">
-      <div className="container grid grid-three-column">
-        {products.map((curElem) => {
-          return <Product key={curElem.id} {...curElem} />;
-        })}
-      </div>
+        <div className=" grid grid-three-column">
+          {filteredProducts.map((curElem) => {
+            return <Product key={curElem.id} {...curElem} />;
+          })}
+        </div>
+  
     </Wrapper>
   );
 };
@@ -42,8 +58,8 @@ const Wrapper = styled.section`
       left: 0;
       width: 0%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      transition: all 0.2s linear;
+      background-color: rgb(252 108 133 / 57%);
+      transition: all 0.3s linear;
       cursor: pointer;
     }
     &:hover::after {
@@ -69,7 +85,6 @@ const Wrapper = styled.section`
     }
 
     .card-data-flex {
-      
       flex-direction: column;
       margin: 2rem 0;
       display: flex;

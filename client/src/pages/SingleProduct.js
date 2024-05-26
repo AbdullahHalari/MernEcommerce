@@ -88,7 +88,7 @@ const SingleProduct = () => {
           {/* product dAta  */}
           <div className="product-data">
             <h2>{title}</h2>
-            <Star stars={2} reviews={6} />
+            <Star stars={3.5} reviews={6} />
 
             {/* <p className="product-data-price">
               MRP:
@@ -168,7 +168,7 @@ const SingleProduct = () => {
                     // <p>{curColor}</p>
                   )
                 })} */}
-              <div className="cart-button">
+              {/* <div className="cart-button">
                 <div className="amount-toggle">
                   <button onClick={handleDecrement}>
                     <TbMinus />
@@ -178,7 +178,7 @@ const SingleProduct = () => {
                     <TbPlus />
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
             <NavLink
               to={{

@@ -73,7 +73,7 @@ const Wrapper = styled.section`
       left: 0;
       width: 0%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgb(252 108 133 / 57%);
       transition: all 0.2s linear;
       cursor: pointer;
     }

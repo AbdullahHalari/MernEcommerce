@@ -3,13 +3,22 @@ import { FaCheck } from "react-icons/fa";
 import { Button } from "../styles/Button";
 import { useEffect, useState } from "react";
 import FormatPrice from "../helper/formatPrice";
+import { useDispatch } from "react-redux";
+
+import {
+  setCompanyFilter,
+  setPriceFilter,
+  setColorFilter,
+  setCategoryFilter,
+} from "../store/filter";
 const FilterSection = () => {
   // get the unique values of each property
-  const [products,setProducts] = useState([])
-  const [category,setCategory] = useState('')
+  const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState("");
   const [color, setColor] = useState([]);
   const [price, setPrice] = useState(0);
-
+  const [company, setCompany] = useState("");
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -37,7 +46,7 @@ const FilterSection = () => {
 
     if (attr === "colors") {
       // console.log((newVal = [...new Set([].concat(...newVal))]));
-      return (newVal = [ ...new Set([].concat(...newVal))]);
+      return (newVal = [...new Set([].concat(...newVal))]);
       // newVal = newVal.flat();
     }
 
@@ -78,7 +87,7 @@ const FilterSection = () => {
                 name="category"
                 value={curElem}
                 className={curElem === category ? "active" : ""}
-                onClick={(e) => setCategory(e.target.value)}
+                onClick={(e) => dispatch(setCategoryFilter(e.target.value))}
               >
                 {curElem}
               </button>
@@ -95,7 +104,11 @@ const FilterSection = () => {
             name="company"
             id="company"
             className="filter-company--select"
-            // onClick={updateFilterValue}
+            value={company}
+            onChange={(e) => {
+              dispatch(setCompanyFilter(e.target.value));
+              setCompany(e.target.value);
+            }}
           >
             {companyData.map((curElem, index) => {
               return (
@@ -147,19 +160,31 @@ const FilterSection = () => {
             ))}
           </select>
         </div> */}
-         {colorsData.map((curColor, index) => (
-           <button
-           key={index}
-           type="button"
-           value={curColor}
-           name="color"
-           style={{ backgroundColor: curColor }}
-           className={color.includes(curColor) ? "btnStyle active" : "btnStyle"}
-           onClick={(e)=>{setColor([e.target.value, ...color]); console.log(color)}}
-           >
-          {color.includes(curColor) ? <FaCheck className="checkStyle" /> : null}
-        </button>
-          ))}
+        {colorsData.map((curColor, index) => (
+          <button
+            key={index}
+            type="button"
+            value={curColor}
+            name="color"
+            style={{ backgroundColor: curColor }}
+            className={
+              color.includes(curColor) ? "btnStyle active" : "btnStyle"
+            }
+            onClick={(e) => {
+              {
+                color.includes(curColor)
+                  ? setColor(color.filter((c) => c !== curColor))
+                  : setColor([...color, e.target.value]);
+              }
+              dispatch(setColorFilter(curColor));
+              console.log(color);
+            }}
+          >
+            {color.includes(curColor) ? (
+              <FaCheck className="checkStyle" />
+            ) : null}
+          </button>
+        ))}
       </div>
 
       <div className="filter_price">
@@ -173,12 +198,28 @@ const FilterSection = () => {
           min={0}
           max={25000}
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={(e) => {
+            dispatch(setPriceFilter(e.target.value));
+            setPrice(e.target.value);
+          }}
         />
       </div>
 
       <div className="filter-clear">
-        <Button className="btn">Clear Filters</Button>
+        <Button
+          className="btn"
+          onClick={() => {
+            // setColor("");
+            setCategory("");
+            setPrice(0);
+            setCompany("");
+            dispatch(setCategoryFilter("all"));
+            dispatch(setPriceFilter(0));
+            dispatch(setCompanyFilter("all"));
+          }}
+        >
+          Clear Filters
+        </Button>
       </div>
     </Wrapper>
   );

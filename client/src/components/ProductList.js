@@ -4,7 +4,6 @@ import ListView from "./ListView";
 
 const ProductList = () => {
  const [all_products, setProducts] = useState([]);
-
  useEffect(() => {
    const fetchProducts = async () => {
      try {
@@ -23,7 +22,10 @@ const ProductList = () => {
 
    fetchProducts();
  }, []);
-
+   
+  //  setSearchQuery(query);
+   //  console.log(filteredQuestions);
+ 
 //   if (grid_view === true) {
     return( <GridView products={all_products} />)
 //   }

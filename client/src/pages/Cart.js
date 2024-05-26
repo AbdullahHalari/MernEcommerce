@@ -6,11 +6,20 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import FormatPrice from "../helper/formatPrice";
 import { useState } from "react";
-import { cartTotal } from "../store/addToCart";
+import { clearCart } from "../store/addToCart";
 
 const Cart = () => {
   const { isAuthenticated, user } = useAuth0();
   const cart = useSelector((state)=>state.addCart.cart)
+   const calculateCartTotal = () => {
+     let total = 0;
+     for (const item of cart) {
+       total += item.price * item.quantity;
+     }
+     return total;
+   };
+
+  const dispatch = useDispatch()
   if (cart.length === 0) {
     return (
       <EmptyDiv>
@@ -18,10 +27,12 @@ const Cart = () => {
       </EmptyDiv>
     );
   }
-
+ function clear() {
+   dispatch(clearCart());
+ }
   return (
     <Wrapper>
-      <div style={{margin:100}}>
+      <div style={{ margin: 100 }}>
         {isAuthenticated && (
           <div className="cart-user--profile">
             <img src={user.profile} alt={user.name} />
@@ -38,8 +49,7 @@ const Cart = () => {
         </div>
         <hr />
         <div className="cart-item">
-          {cart.map((curElem,index) => {
-           
+          {cart.map((curElem, index) => {
             return <CartItem key={index} {...curElem} />;
           })}
         </div>
@@ -48,7 +58,9 @@ const Cart = () => {
           <NavLink to="/products">
             <Button> continue Shopping </Button>
           </NavLink>
-          <Button className="btn btn-clear">clear cart</Button>
+          <Button className="btn btn-clear" onClick={clear}>
+            clear cart
+          </Button>
         </div>
 
         {/* order total_amount */}
@@ -56,19 +68,25 @@ const Cart = () => {
           <div className="order-total--subdata">
             <div>
               <p>subtotal:</p>
-              <p><FormatPrice price={500} /></p>
+              <p>
+                <FormatPrice price={calculateCartTotal()} />
+              </p>
             </div>
             <div>
               <p>shipping fee:</p>
-              <p><FormatPrice price={250} /></p>
+              <p>
+                <FormatPrice price={250} />
+              </p>
             </div>
             <hr />
             <div>
               <p>order total:</p>
-              <p><FormatPrice price={343 + 344} /></p>
+              <p>
+                <FormatPrice price={calculateCartTotal() + 250} />
+              </p>
             </div>
           </div>
-          <Button className="btn btn-clear" >Check Out</Button>
+          <Button className="btn btn-clear">Check Out</Button>
         </div>
       </div>
     </Wrapper>

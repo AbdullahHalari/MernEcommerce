@@ -26,28 +26,15 @@ const Footer = () => {
         {/* footer section */}
 
         <footer>
-          <div className="container grid grid-four-column">
+          <div
+            className="container footer-grid grid-four-column"
+           
+          >
             <div className="footer-about">
               <h3>libaas</h3>
               <p>we believe that clothing is more than just fabric. </p>
             </div>
-            <div className="footer-subscribe">
-              <h3>Subscribe to get important updates</h3>
-              {/* <form action="#"> */}
-              <input type="email" name="email" placeholder="YOUR E-MAIL" />
-              <Button
-                onClick={() => navigate("/contact")}
-                className="btn btn-clear"
-              >
-                subscribe
-              </Button>
-              {/* <input
-                type="submit"
-                value="subscribe"
-                onClick={() => navigate("/contact")}
-              /> */}
-              {/* </form> */}
-            </div>
+
             <div className="footer-social">
               <h3>Follow Us</h3>
               <div className="footer-social--icons">
@@ -59,7 +46,7 @@ const Footer = () => {
                 </div>
                 <div>
                   {/* <a
-                    href="https://www.youtube.com/channel/UCwfaAHy4zQUb2APNOGXUCCA"
+                    href=""
                     target="_blank"
                   > */}
                   <FaYoutube className="icons" />
@@ -70,6 +57,7 @@ const Footer = () => {
             <div className="footer-contact">
               <h3>Call Us</h3>
               <h3>+92 312 2415987</h3>
+              <h3>support@libaas.com</h3>
             </div>
           </div>
 
@@ -119,7 +107,10 @@ const Wrapper = styled.section`
     p {
       color: ${({ theme }) => theme.colors.white};
     }
-   
+    .footer-grid {
+      gap: 5rem;
+      flex-direction: row;
+    }
     .footer-social--icons {
       display: flex;
       gap: 2rem;
@@ -164,7 +155,10 @@ const Wrapper = styled.section`
     footer {
       padding: 9rem 0 9rem 0;
     }
-
+    .footer-grid {
+      display:grid;
+      
+    }
     .footer-bottom--section {
       padding-top: 4.8rem;
     }
